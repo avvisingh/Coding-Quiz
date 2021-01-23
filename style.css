@@ -14,7 +14,21 @@ h6 {
 #question {
     background-color: aquamarine;
     width: 100%;
-    margin-top: 5%;
+    margin-top: 2%;
+    height: fit-content;
+    text-align: center;
+    padding: 2%;
+}
+
+#timer-container {
+    width: 50%;
+    margin: auto 25%;
+}
+
+#timer {
+    background-color: aquamarine;
+    width: 100%;
+    margin-top: 2%;
     height: fit-content;
     text-align: center;
     padding: 2%;
@@ -29,4 +43,23 @@ h6 {
     height: fit-content;
     text-align: center;
     padding: 2%;
+}
+
+#rules-container {
+    width: 60%;
+    margin: 2% 20%;
+    margin-bottom: 0%;
+}
+
+#rules {
+    background-color: aquamarine;
+    width: 60%;
+    margin-top: 2%;
+    height: fit-content;
+    text-align: center;
+    padding: 2%;
+}
+
+ul {
+    text-align: left;
 }
