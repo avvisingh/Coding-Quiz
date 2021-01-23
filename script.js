@@ -97,11 +97,31 @@ let startQuiz = () => {
 startButton.addEventListener('click', startQuiz);
 
 let loadQuestionAndCheck = () => {
-    let questionsUsed = [];
+
+    let questionOrder = [];
     for (let i = 0; i < questionSet.length ; i++) {
-        generateIndex(questionsUsed);
-        console.log(questionsUsed);
+        generateOrderIndex(questionOrder);
+        console.log(questionOrder);
     }
+
+    let indexed = [];
+    let answerSpaces = [answerSpace1, answerSpace2, answerSpace3, answerSpace4];
+
+    for(let i = 0; i < 4; i++) {
+        generatePlacementIndex(indexed);
+        console.log(indexed);
+    }
+
+    questionOrder.forEach((index) => {
+        let currentQuestion = questionSet[index];
+        let currentQuestionArr = Object.values(currentQuestion);
+        console.log(currentQuestionArr);
+        questionText.innerHTML = currentQuestionArr[0];
+        for (let p = 0; p < 4; p++) {
+            let placement = indexed[p];
+            answerSpaces[p].innerHTML = currentQuestionArr[placement];
+        }
+    })
     let timer = 60;
     countdown(timer);
 }
@@ -114,12 +134,21 @@ let countdown = (timeLimit) => {
     }, 1000);
 }
 
-let generateIndex = (arr) => {
+let generateOrderIndex = (arr) => {
     let currentIndex = Math.floor(Math.random() * questionSet.length);
     console.log(currentIndex)
     if (arr.includes(currentIndex)) {
-        generateIndex(arr);
+        generateOrderIndex(arr);
     } else {
         arr.push(currentIndex);
+    }
+}
+
+let generatePlacementIndex = (arr) => {
+    let placementIndex = Math.floor(Math.random() * 4) + 1;
+    if (arr.includes(placementIndex)) {
+        generatePlacementIndex(arr);
+    } else {
+        arr.push(placementIndex);
     }
 }
