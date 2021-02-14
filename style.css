@@ -1,65 +1,74 @@
 .navbar {
-    background-color: aquamarine;
-    width: 100%;
-    margin-top: 0%;
-    height: fit-content;
+  background-color: aquamarine;
+  width: 100%;
+  margin-top: 0%;
+  height: fit-content;
 }
 
 h6 {
-    color: black;
-    margin: 2% 25%;
-    text-align: center;
+  color: black;
+  margin: 2% 25%;
+  text-align: center;
 }
 
 #question {
-    background-color: aquamarine;
-    width: 100%;
-    margin-top: 2%;
-    height: fit-content;
-    text-align: center;
-    padding: 2%;
+  background-color: aquamarine;
+  width: 100%;
+  margin-top: 2%;
+  height: fit-content;
+  text-align: center;
+  padding: 2%;
 }
 
-#timer-container {
-    width: 50%;
-    margin: auto 25%;
+#timer-container,
+#next-container {
+  width: 50%;
+  margin: auto 25%;
 }
 
-#timer {
-    background-color: aquamarine;
-    width: 100%;
-    margin-top: 2%;
-    height: fit-content;
-    text-align: center;
-    padding: 2%;
+#timer,
+#next {
+  background-color: aquamarine;
+  width: 100%;
+  margin-top: 2%;
+  height: fit-content;
+  text-align: center;
+  padding: 2%;
 }
 
 .options {
-    background-color: aquamarine;
-    width: 100%;
-    margin-top: 2%;
-    margin-right: 1%;
-    margin-left: 1%;
-    height: fit-content;
-    text-align: center;
-    padding: 2%;
+  background-color: aquamarine;
+  width: 100%;
+  margin-top: 2%;
+  margin-right: 1%;
+  margin-left: 1%;
+  height: fit-content;
+  text-align: center;
+  padding: 2%;
 }
 
 #rules-container {
-    width: 60%;
-    margin: 2% 20%;
-    margin-bottom: 0%;
+  width: 60%;
+  margin: 2% 20%;
+  margin-bottom: 0%;
 }
 
 #rules {
-    background-color: aquamarine;
-    width: 60%;
-    margin-top: 2%;
-    height: fit-content;
-    text-align: center;
-    padding: 2%;
+  background-color: aquamarine;
+  width: 60%;
+  margin-top: 2%;
+  height: fit-content;
+  text-align: center;
+  padding: 2%;
 }
 
 ul {
-    text-align: left;
+  text-align: left;
+}
+
+.answer-spaces {
+  background-color: aquamarine;
+  text-align: center;
+  margin: 1%;
+  padding: 2%;
 }
