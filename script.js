@@ -104,51 +104,16 @@ let startQuiz = () => {
   defaultNotDisplayed.forEach((item) => {
     item.style.display = "initial";
   });
-  loadQuestionAndCheck();
+  loadQuestionsAndCheck();
 };
 
 startButton.addEventListener("click", startQuiz);
 
-let loadQuestionAndCheck = () => {
-  let questionOrder = [];
-  //Quesiton order is initialised to an empty array
-  //The below function will generate a random number between 0 and (questionSet.length -1) and will then push that number to the question Order array - first checking to see
-  //whether or not questionOrder already has that number
-  //The application will then display questions by iterating through each element within questionOrder
-  for (let i = 0; i < questionSet.length; i++) {
-    generateOrderIndex(questionOrder);
-    console.log(questionOrder);
-  }
+let loadQuestionsAndCheck = () => {
+  let questionOrder = loadQuestionOrder(questionSet.length);
 
-  let indexed = [];
-  let answerSpaces = [answerSpace1, answerSpace2, answerSpace3, answerSpace4];
-  //indexed is initialised to an empty array
-  //The below function will generate a random number between 1 and 4 and will then push that number to indexed - first checking to see whether or not indexed already contains that value.
-  for (let i = 0; i < 4; i++) {
-    generatePlacementIndex(indexed);
-    console.log(indexed);
-  }
+  controller(questionOrder);
 
-  //This is the forEach loop which places the options in boxes in a randomised order
-  questionOrder.forEach((index) => {
-    let currentQuestion = questionSet[index];
-    let currentQuestionArr = Object.values(currentQuestion);
-    console.log(currentQuestionArr);
-    questionText.innerHTML = currentQuestionArr[0];
-    for (let p = 0; p < 4; p++) {
-      let placement = indexed[p];
-      answerSpaces[p].innerHTML = currentQuestionArr[placement];
-      answerSpaces[p].addEventListener("click", (e) => {
-        let userAnswer = e.target.innerHTML.toString();
-        console.log(userAnswer);
-        if (userAnswer === currentQuestion.correct) {
-          return console.log("Correct!");
-        } else {
-          return console.log("NO");
-        }
-      });
-    }
-  });
   let timer = 60;
   countdown(timer);
 };
@@ -178,4 +143,57 @@ let generatePlacementIndex = (arr) => {
   } else {
     arr.push(placementIndex);
   }
+};
+
+let loadQuestionOrder = (length) => {
+  let questionOrderArr = [];
+  //Quesiton order is initialised to an empty array
+  //The below function will generate a random number between 0 and (questionSet.length -1) and will then push that number to the question Order array - first checking to see
+  //whether or not questionOrder already has that number
+  //The application will then display questions by iterating through each element within questionOrder
+  for (let i = 0; i < length; i++) {
+    generateOrderIndex(questionOrderArr);
+    console.log(questionOrderArr);
+  }
+
+  return questionOrderArr;
+};
+
+let controller = (questionOrderArray) => {
+  let indexed = [];
+  let answerSpaces = [answerSpace1, answerSpace2, answerSpace3, answerSpace4];
+  //indexed is initialised to an empty array
+  //The below function will generate a random number between 1 and 4 and will then push that number to indexed - first checking to see whether or not indexed already contains that value.
+  for (let i = 0; i < 4; i++) {
+    generatePlacementIndex(indexed);
+    console.log(indexed);
+  }
+  //   take out questionOrderArray[0]
+  let currentIndex = questionOrderArray[0];
+  let currentQuestion = questionSet[currentIndex];
+  let currentQuestionArr = Object.values(currentQuestion);
+  console.log(currentQuestionArr);
+  //   Render question and options
+  //   Check user answer upon click event
+  questionText.innerHTML = currentQuestionArr[0];
+  for (let p = 0; p < 4; p++) {
+    let placement = indexed[p];
+    answerSpaces[p].innerHTML = currentQuestionArr[placement];
+    answerSpaces[p].addEventListener("click", (e) => {
+      let userAnswer = e.target.innerHTML.toString();
+      console.log(userAnswer);
+      if (userAnswer === currentQuestion.correct) {
+        console.log("Correct!");
+        questionOrderArray.shift();
+        console.log(questionOrderArray);
+        controller(questionOrderArray);
+      } else {
+        console.log("NO");
+        questionOrderArray.shift();
+        console.log(questionOrderArray);
+        controller(questionOrderArray);
+      }
+    });
+  }
+  //   questionOrderArray.shift()
 };
