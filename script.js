@@ -138,6 +138,7 @@ let loadQuestionAndCheck = () => {
     for (let p = 0; p < 4; p++) {
       let placement = indexed[p];
       answerSpaces[p].innerHTML = currentQuestionArr[placement];
+      answerSpaces[p].addEventListener("click", checkAnswer);
     }
   });
   let timer = 60;
@@ -169,4 +170,9 @@ let generatePlacementIndex = (arr) => {
   } else {
     arr.push(placementIndex);
   }
+};
+
+let checkAnswer = (e) => {
+  let userAnswer = e.target.innerHTML.toString();
+  console.log(userAnswer);
 };
