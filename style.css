@@ -1,74 +1,64 @@
-.navbar {
-  background-color: aquamarine;
-  width: 100%;
-  margin-top: 0%;
-  height: fit-content;
-}
+@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);
 
-h6 {
-  color: black;
-  margin: 2% 25%;
+body {
+  font-size: 20px;
+  font-family: "Work Sans", sans-serif;
+  color: #333;
+  font-weight: 300;
   text-align: center;
+  background-color: #f8f6f0;
 }
-
-#question {
-  background-color: aquamarine;
-  width: 100%;
-  margin-top: 2%;
-  height: fit-content;
-  text-align: center;
-  padding: 2%;
+h1 {
+  font-weight: 300;
+  margin: 0px;
+  padding: 10px;
+  font-size: 20px;
+  background-color: #444;
+  color: #fff;
 }
-
-#timer-container,
-#next-container {
-  width: 50%;
-  margin: auto 25%;
+.question {
+  font-size: 30px;
+  margin-bottom: 10px;
 }
-
-#timer,
-#next {
-  background-color: aquamarine;
-  width: 100%;
-  margin-top: 2%;
-  height: fit-content;
-  text-align: center;
-  padding: 2%;
-}
-
-.options {
-  background-color: aquamarine;
-  width: 100%;
-  margin-top: 2%;
-  margin-right: 1%;
-  margin-left: 1%;
-  height: fit-content;
-  text-align: center;
-  padding: 2%;
-}
-
-#rules-container {
-  width: 60%;
-  margin: 2% 20%;
-  margin-bottom: 0%;
-}
-
-#rules {
-  background-color: aquamarine;
-  width: 60%;
-  margin-top: 2%;
-  height: fit-content;
-  text-align: center;
-  padding: 2%;
-}
-
-ul {
+.answers {
+  margin-bottom: 20px;
   text-align: left;
+  display: inline-block;
+}
+.answers label {
+  display: block;
+  margin-bottom: 10px;
+}
+button {
+  font-family: "Work Sans", sans-serif;
+  font-size: 22px;
+  background-color: #279;
+  color: #fff;
+  border: 0px;
+  border-radius: 3px;
+  padding: 20px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+button:hover {
+  background-color: #38a;
 }
 
-.answer-spaces {
-  background-color: aquamarine;
-  text-align: center;
-  margin: 1%;
-  padding: 2%;
+.slide {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.active-slide {
+  opacity: 1;
+  z-index: 2;
+}
+.quiz-container {
+  position: relative;
+  height: 200px;
+  margin-top: 40px;
 }

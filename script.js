@@ -1,199 +1,147 @@
-const startButton = document.getElementById("start-button");
-const questionText = document.getElementById("question-text");
-const rulesBlock = document.getElementById("rules-container");
-const answerSpace1 = document.getElementById("answer-space-1");
-const answerSpace2 = document.getElementById("answer-space-2");
-const answerSpace3 = document.getElementById("answer-space-3");
-const answerSpace4 = document.getElementById("answer-space-4");
-const answerOptions = document.getElementsByClassName("options");
-const nextContainer = document.getElementById("next-container");
-const timer = document.getElementById("timer");
+(function () {
+  // Functions
+  function buildQuiz() {
+    // variable to store the HTML output
+    const output = [];
 
-const questionSet = [
-  {
-    question: "Inside which HTML element do we put the JavaScript?",
-    correct: "<script>",
-    option1: "<scripting>",
-    option2: "<js>",
-    option3: "<javascript>",
-  },
-  {
-    question:
-      "What is the correct JavaScript syntax to change the content of the following HTML element: \n <p id='demo'>This is a demonstration.</p>",
-    correct: "document.getElementById('demo').innerHTML = 'Hello World!';",
-    option1: "document.getElementById('p').innerHTML = 'Hello World!';",
-    option2: "document.getElementByName('p').innerHTML = 'Hello World!';",
-    option3: "#demo.innerHTML = 'Hello World!';",
-  },
-  {
-    question: "Where is the correct place to insert a JavaScript?",
-    correct: "Both the <head> section and the <body> section are acceptable",
-    option1: "<head> section",
-    option2: "<body> section",
-    option3: "<footer> section",
-  },
-  {
-    question:
-      "What is the correct syntax for referring to an external script called 'xxx.js'?",
-    correct: "<script src='xxx.js'>",
-    option1: "<script name='xxx.js'>",
-    option2: "<script href='xxx.js'>",
-    option3: "<script xxx.js>",
-  },
-  {
-    question: "How do you write 'Hello World' in an alert box?",
-    correct: "alert('Hello World!');",
-    option1: "alertBox('Hello World!');",
-    option2: "prompt('Hello World!');",
-    option3: "msg('Hello World!');",
-  },
-  {
-    question: "How do you create a function in JavaScript?",
-    correct: "function myFunction() {//code}",
-    option1: "function = myFunction()",
-    option2: "function init myFunction() {//code}",
-    option3: "function:myFunction()",
-  },
-  {
-    question: "How do you call a function named 'myFunction'?",
-    correct: "myFunction()",
-    option1: "call myFunction()",
-    option2: "myFunction(){}",
-    option3: "The function is called when you declare it.",
-  },
-  {
-    question: "How do you write an 'If' statement in JavaScript?",
-    correct: "if (condition) {//Code to execute}",
-    option1: "IF (condition) {//Code to execute}",
-    option2: "if {condition} {//Code to execute}",
-    option3: "IF {condition} {//Code to execute}",
-  },
-  {
-    question: "How does a 'FOR' loop start?",
-    correct: "for (i = 0; i < 4; i++) {//Code to execute}",
-    option1: "for (i = 0; i < 5) {//Code to execute}",
-    option2: "for (i = 1 to 5) {//Code to execute}",
-    option3: "for (i <= 5; i++) {//Code to execute}",
-  },
-  {
-    question: "How do you write multi-line comments in your JavaScript?",
-    correct: "/* comments inside */",
-    option1: "// comments inside //",
-    option2: "<-- comments inside -->",
-    option3: "[-- comments inside --]",
-  },
-];
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // variable to store the list of possible answers
+      const answers = [];
 
-nextContainer.style.display = "none";
-let defaultNotDisplayed = [
-  questionText,
-  answerSpace1,
-  answerSpace2,
-  answerSpace3,
-  answerSpace4,
-  timer,
-];
+      // and for each available answer...
+      for (letter in currentQuestion.answers) {
+        // ...add an HTML radio button
+        answers.push(
+          `<label>
+              <input type="radio" name="question${questionNumber}" value="${letter}">
+              ${letter} :
+              ${currentQuestion.answers[letter]}
+            </label>`
+        );
+      }
 
-defaultNotDisplayed.forEach((item) => {
-  item.style.display = "none";
-});
+      // add this question and its answers to the output
+      output.push(
+        `<div class="slide">
+            <div class="question"> ${currentQuestion.question} </div>
+            <div class="answers"> ${answers.join("")} </div>
+          </div>`
+      );
+    });
 
-let startQuiz = () => {
-  startButton.style.display = "none";
-  rulesBlock.style.display = "none";
-  defaultNotDisplayed.forEach((item) => {
-    item.style.display = "initial";
-  });
-  loadQuestionsAndCheck();
-};
-
-startButton.addEventListener("click", startQuiz);
-
-let loadQuestionsAndCheck = () => {
-  let questionOrder = loadQuestionOrder(questionSet.length);
-
-  controller(questionOrder);
-
-  let timer = 60;
-  countdown(timer);
-};
-
-let countdown = (timeLimit) => {
-  timer.innerHTML = `You have ${timeLimit} seconds left!`;
-  setInterval(() => {
-    timeLimit--;
-    timer.innerHTML = `You have ${timeLimit} seconds left!`;
-  }, 1000);
-};
-
-let generateOrderIndex = (arr) => {
-  let currentIndex = Math.floor(Math.random() * questionSet.length);
-  console.log(currentIndex);
-  if (arr.includes(currentIndex)) {
-    generateOrderIndex(arr);
-  } else {
-    arr.push(currentIndex);
-  }
-};
-
-let generatePlacementIndex = (arr) => {
-  let placementIndex = Math.floor(Math.random() * 4) + 1;
-  if (arr.includes(placementIndex)) {
-    generatePlacementIndex(arr);
-  } else {
-    arr.push(placementIndex);
-  }
-};
-
-let loadQuestionOrder = (length) => {
-  let questionOrderArr = [];
-  //Quesiton order is initialised to an empty array
-  //The below function will generate a random number between 0 and (questionSet.length -1) and will then push that number to the question Order array - first checking to see
-  //whether or not questionOrder already has that number
-  //The application will then display questions by iterating through each element within questionOrder
-  for (let i = 0; i < length; i++) {
-    generateOrderIndex(questionOrderArr);
-    console.log(questionOrderArr);
+    // finally combine our output list into one string of HTML and put it on the page
+    quizContainer.innerHTML = output.join("");
   }
 
-  return questionOrderArr;
-};
+  function showResults() {
+    // gather answer containers from our quiz
+    const answerContainers = quizContainer.querySelectorAll(".answers");
 
-let controller = (questionOrderArray) => {
-  let indexed = [];
-  let answerSpaces = [answerSpace1, answerSpace2, answerSpace3, answerSpace4];
-  //indexed is initialised to an empty array
-  //The below function will generate a random number between 1 and 4 and will then push that number to indexed - first checking to see whether or not indexed already contains that value.
-  for (let i = 0; i < 4; i++) {
-    generatePlacementIndex(indexed);
-    console.log(indexed);
-  }
-  //   take out questionOrderArray[0]
-  let currentIndex = questionOrderArray[0];
-  let currentQuestion = questionSet[currentIndex];
-  let currentQuestionArr = Object.values(currentQuestion);
-  console.log(currentQuestionArr);
-  //   Render question and options
-  //   Check user answer upon click event
-  questionText.innerHTML = currentQuestionArr[0];
-  for (let p = 0; p < 4; p++) {
-    let placement = indexed[p];
-    answerSpaces[p].innerHTML = currentQuestionArr[placement];
-    answerSpaces[p].addEventListener("click", (e) => {
-      let userAnswer = e.target.innerHTML.toString();
-      console.log(userAnswer);
-      if (userAnswer === currentQuestion.correct) {
-        console.log("Correct!");
-        questionOrderArray.shift();
-        console.log(questionOrderArray);
-        controller(questionOrderArray);
-      } else {
-        console.log("NO");
-        questionOrderArray.shift();
-        console.log(questionOrderArray);
-        controller(questionOrderArray);
+    // keep track of user's answers
+    let numCorrect = 0;
+
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // find selected answer
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+      // if answer is correct
+      if (userAnswer === currentQuestion.correctAnswer) {
+        // add to the number of correct answers
+        numCorrect++;
+
+        // color the answers green
+        answerContainers[questionNumber].style.color = "lightgreen";
+      }
+      // if answer is wrong or blank
+      else {
+        // color the answers red
+        answerContainers[questionNumber].style.color = "red";
       }
     });
+
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
   }
-  //   questionOrderArray.shift()
-};
+
+  function showSlide(n) {
+    slides[currentSlide].classList.remove("active-slide");
+    slides[n].classList.add("active-slide");
+    currentSlide = n;
+    if (currentSlide === 0) {
+      previousButton.style.display = "none";
+    } else {
+      previousButton.style.display = "inline-block";
+    }
+    if (currentSlide === slides.length - 1) {
+      nextButton.style.display = "none";
+      submitButton.style.display = "inline-block";
+    } else {
+      nextButton.style.display = "inline-block";
+      submitButton.style.display = "none";
+    }
+  }
+
+  function showNextSlide() {
+    showSlide(currentSlide + 1);
+  }
+
+  function showPreviousSlide() {
+    showSlide(currentSlide - 1);
+  }
+
+  // Variables
+  const quizContainer = document.getElementById("quiz");
+  const resultsContainer = document.getElementById("results");
+  const submitButton = document.getElementById("submit");
+  const myQuestions = [
+    {
+      question: "Who invented JavaScript?",
+      answers: {
+        a: "Douglas Crockford",
+        b: "Sheryl Sandberg",
+        c: "Brendan Eich",
+      },
+      correctAnswer: "c",
+    },
+    {
+      question: "Which one of these is a JavaScript package manager?",
+      answers: {
+        a: "Node.js",
+        b: "TypeScript",
+        c: "npm",
+      },
+      correctAnswer: "c",
+    },
+    {
+      question: "Which tool can you use to ensure code quality?",
+      answers: {
+        a: "Angular",
+        b: "jQuery",
+        c: "RequireJS",
+        d: "ESLint",
+      },
+      correctAnswer: "d",
+    },
+  ];
+
+  // Kick things off
+  buildQuiz();
+
+  // Pagination
+  const previousButton = document.getElementById("previous");
+  const nextButton = document.getElementById("next");
+  const slides = document.querySelectorAll(".slide");
+  let currentSlide = 0;
+
+  // Show the first slide
+  showSlide(currentSlide);
+
+  // Event listeners
+  submitButton.addEventListener("click", showResults);
+  previousButton.addEventListener("click", showPreviousSlide);
+  nextButton.addEventListener("click", showNextSlide);
+})();
