@@ -1,7 +1,7 @@
 const quizContainer = document.getElementById("quiz");
 const resultsContainer = document.getElementById("results");
 const submitButton = document.getElementById("submit");
-
+const timerContainer = document.getElementById("timer");
 const myQuestions = [
   {
     question: "Who invented JavaScript?",
@@ -32,10 +32,16 @@ const myQuestions = [
     correctAnswer: "d",
   },
 ];
+let timer = 60;
 
 function buildQuiz() {
   // variable to store the HTML output
   const output = [];
+
+  setInterval(() => {
+    timer--;
+    timerContainer.innerText = timer;
+  }, 1000);
 
   // for each question...
   myQuestions.forEach((currentQuestion, questionNumber) => {
@@ -127,7 +133,7 @@ function showPreviousSlide() {
 }
 
 // display quiz right away
-buildQuiz();
+window.onload = buildQuiz();
 
 // Pagination
 const previousButton = document.getElementById("previous");
