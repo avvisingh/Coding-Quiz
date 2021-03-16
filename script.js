@@ -38,11 +38,6 @@ function buildQuiz() {
   // variable to store the HTML output
   const output = [];
 
-  setInterval(() => {
-    timer--;
-    timerContainer.innerText = timer;
-  }, 1000);
-
   // for each question...
   myQuestions.forEach((currentQuestion, questionNumber) => {
     // variable to store the list of possible answers
@@ -53,7 +48,7 @@ function buildQuiz() {
       // ...add an HTML radio button
       answers.push(
         `<label>
-            <input type="radio" name="question${questionNumber}" value="${letter}">
+            <input class="question-input" type="radio" name="question${questionNumber}" value="${letter}">
             ${letter} :
             ${currentQuestion.answers[letter]}
           </label>`
@@ -71,6 +66,18 @@ function buildQuiz() {
 
   // finally combine our output list into one string of HTML and put it on the page
   quizContainer.innerHTML = output.join("");
+
+  setInterval(() => {
+    let answers = document.getElementsByClassName("slide");
+    timer--;
+    if (timer > 0) {
+      timerContainer.innerText = timer;
+    } else {
+      timerContainer.innerText = "Time's Up!";
+      showResults();
+      answers.innerHTML = `<p>Refresh the page to try again!</p>`;
+    }
+  }, 1000);
 }
 
 function showResults() {
